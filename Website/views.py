@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, flash, url_for
 from flask_login import login_user, login_required, logout_user, current_user
-from .models import Transfer
+from .models import Transfer, User
 from . import db
 import json
 import os
@@ -33,14 +33,25 @@ def formularz():
                     db.session.add(new_transfer)
                     db.session.commit()
 
-                    return redirect(url_for('views.formularzAcc', transfer_id=new_transfer.id))
-
-
-
+                    return redirect(url_for('views.formularzAcc', id=new_transfer.id))
 
     return render_template('formularz.html', user=current_user)
+
 # user=current_user, bank_nr=bankNr, name_t=name, surname_t=surname
-@views.route('/formularz_acc', methods=['GET', 'POST'])
+@views.route('/formularz_acc/<id>', methods=['GET', 'POST'])
 @login_required
-def formularzAcc():
+def formularzAcc(id):
+    if request.method == 'POST':
+        return redirect(url_for('views.formularz'))
+
+    if request.method == 'GET':
+        # t = db.session.query(Transfer.id).order_by(Transfer.date.desc()).where(current_user.id==Transfer.user_id)
+        transfers = Transfer.query.get(id)
+
+        if transfers:
+            if transfers.user_id == current_user.id:
+                return render_template('formularz_acc.html', user=current_user, bankNr=transfers.number, name=transfers.name, surname=transfers.surname)
+
     return render_template('formularz_acc.html', user=current_user)
+
+ # bankNr=transfers.number, name=transfers.name, surname=transfers.surname
