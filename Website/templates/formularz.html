@@ -1,0 +1,38 @@
+{% extends "base.html" %} {% block title %}Login{% endblock %} {% block content
+%}
+<form method="POST">
+  <h3 align="center">Formularz</h3>
+  <div class="form-group">
+    <label for="bankNumber">Numer konta</label>
+    <input
+      type="number"
+      class="form-control"
+      id="bankNumber"
+      name="bankNumber"
+      placeholder="Wprowadź numer bankowy"
+    />
+  </div>
+  <div class="form-group">
+    <label for="name">Imię</label>
+    <input
+      type="text"
+      class="form-control"
+      id="name"
+      name="name"
+      placeholder="Wprowadź imię"
+    />
+  </div>
+  <div class="form-group">
+    <label for="surname">Nazwisko</label>
+    <input
+      type="text"
+      class="form-control"
+      id="surname"
+      name="surname"
+      placeholder="Wprowadź nazwisko"
+    />
+  </div>
+  <br />
+  <button type="submit" class="btn btn-primary">Wyślij przelew</button>
+</form>
+{% endblock %}
