@@ -55,3 +55,12 @@ def formularzAcc(id):
     return render_template('formularz_acc.html', user=current_user)
 
  # bankNr=transfers.number, name=transfers.name, surname=transfers.surname
+
+@views.route('/dane')
+@login_required
+def dane():
+    name = User.query.get(current_user.id).first_name
+    mail = User.query.get(current_user.id).email
+    print(name)
+    print(mail)
+    return render_template('dane.html', name=name, mail=mail, user=current_user)
