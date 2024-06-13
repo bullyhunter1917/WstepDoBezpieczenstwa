@@ -17,7 +17,7 @@
 
     <title>{% block title %}Home{% endblock %}</title>
   </head>
-  <body>
+  <body onload="setTabCookie()">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <button
         class="navbar-toggler"
@@ -33,6 +33,9 @@
 <!--          <a class="nav-item nav-link" id="home" href="/">Home</a>-->
           <a class="nav-item nav-link" id="formularz" href="/formularz">Przelew</a>
           <a class="nav-item nav-link" id="logout" href="/logout">Logout</a>
+          {% if user.superuser == True %}
+          <a class="nav-item nav-link" id="acc" href="/acc">Akceptacja</a>
+          {% endif %}
           {% else %}
           <a class="nav-item nav-link" id="login" href="/">Login</a>
           <a class="nav-item nav-link" id="signUp" href="/sign-up">Sign Up</a>
@@ -75,6 +78,34 @@
       integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
       crossorigin="anonymous"
     ></script>
+
+    <script
+      type="text/javascript"
+      src="{{ url_for('static', filename='index.js') }}">
+    </script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
+</script>
+<!-- Dodane na potrzeby 4 zadania -->
+<!--    <script type="text/javascript">-->
+<!--        function setTabCookie() {-->
+<!--              console.log(sessionStorage.getItem('test'))-->
+<!--              if (sessionStorage.getItem('test') == undefined) {-->
+<!--                var tabId = '_' + Math.random().toString(36).substr(2, 9);-->
+<!--                sessionStorage.setItem('test', tabId);-->
+<!--                console.log(sessionStorage.getItem('test'))-->
+<!--              }-->
+<!--        }-->
+
+<!--        $.ajax({-->
+<!--                    url: "/set_id",-->
+<!--                    type: "POST",-->
+<!--                    contentType: "application/json",-->
+<!--                    data: JSON.stringify({id: sessionStorage.getItem('test')})-->
+<!--                });-->
+<!--    </script>-->
+
+
 
   </body>
 </html>

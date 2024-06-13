@@ -4,6 +4,7 @@ from sqlalchemy.sql import func
 
 class Transfer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    accepted = db.Column(db.Boolean, default=False, nullable=False)
     number = db.Column(db.String(26))
     name = db.Column(db.String(1000))
     surname = db.Column(db.String(1000))
@@ -12,6 +13,7 @@ class Transfer(db.Model):
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
+    superuser = db.Column(db.Boolean, default=False, nullable=False)
     email = db.Column(db.String(150), unique=True)
     password = db.Column(db.String(150))
     first_name = db.Column(db.String(150))

@@ -1,9 +1,9 @@
-from flask import Blueprint, render_template, request, flash, redirect, url_for
+from flask import Blueprint, render_template, request, flash, redirect, url_for, session
 from .models import User
 from werkzeug.security import generate_password_hash, check_password_hash
 from . import db   ##means from __init__.py import db
 from flask_login import login_user, login_required, logout_user, current_user
-
+import uuid
 
 auth = Blueprint('auth', __name__)
 
@@ -15,10 +15,13 @@ def login():
         password = request.form.get('password')
 
         user = User.query.filter_by(email=email).first()
+
         if user:
             if check_password_hash(user.password, password):
                 flash('Logged in successfully!', category='success')
                 login_user(user, remember=True)
+                session.permanent = False
+                session['session_token'] = str(uuid.uuid4())
                 return redirect(url_for('views.formularz'))
             else:
                 flash('Incorrect password, try again.', category='error')
@@ -64,3 +67,16 @@ def sign_up():
             return redirect(url_for('views.formularz'))
 
     return render_template("register.html", user=current_user)
+
+id_s = set()
+
+# @auth.route('/set_id', methods=['POST'])
+# def check_id():
+#     print(id_s)
+#     id = request.get_json()
+#     if id['id'] not in id_s:
+#         id_s.add(id['id'])
+#         logout_user()
+#
+#
+#     return ''

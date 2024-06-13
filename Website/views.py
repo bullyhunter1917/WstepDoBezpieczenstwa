@@ -1,9 +1,10 @@
-from flask import Blueprint, render_template, request, redirect, flash, url_for
+from flask import Blueprint, render_template, request, redirect, flash, url_for, jsonify, session
 from flask_login import login_user, login_required, logout_user, current_user
 from .models import Transfer, User
 from . import db
 import json
 import os
+import uuid
 
 banks_file = 'Website/banks_nr.json'
 
@@ -12,6 +13,7 @@ views = Blueprint('views', __name__)
 @views.route('/formularz', methods=['GET', 'POST'])
 @login_required
 def formularz():
+
     if request.method == 'POST':
         bankNr = request.form.get('bankNumber')
         name = request.form.get('name')
@@ -54,4 +56,24 @@ def formularzAcc(id):
 
     return render_template('formularz_acc.html', user=current_user)
 
- # bankNr=transfers.number, name=transfers.name, surname=transfers.surname
+@views.route('/acc', methods=['GET', 'POST'])
+@login_required
+def acc():
+    if request.method == 'GET':
+        if current_user.superuser:
+            transfers = Transfer.query.all()
+            return render_template('acc.html', user=current_user, transfer=transfers)
+        else:
+            return redirect(url_for('views.formularz'))
+
+
+@views.route('/accept-transfer', methods=['POST'])
+def accept_transfer():
+    transfer = json.loads(request.data)
+    transferId = transfer['transferId']
+    transfer = Transfer.query.get(transferId)
+    if transfer:
+        transfer.accepted = True
+        db.session.commit()
+
+    return jsonify({})

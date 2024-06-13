@@ -1,0 +1,17 @@
+{% extends "base.html" %} {% block title %}Login{% endblock %} {% block content
+%}
+<h1 align="center">Akceptacja przelewów</h1>
+<ul class="list-group list-group-flush" id="transfers">
+  {% for t in transfer %}
+    {% if t.accepted == False %}
+        {% autoescape false %} <!-- Dodane na potrzeby 1 zadania -->
+            <li class="list-group-item">Id: {{ t.id }}, Numer: {{ t.number }}, Name: {{ t.name }}, Surname: {{ t.surname }}
+                  <button type="button" class="close" onClick="acceptTransfer({{ t.id }})">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+              </li>
+        {% endautoescape %}
+    {% endif %}
+  {% endfor %}
+</ul>
+{% endblock %}
