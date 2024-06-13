@@ -1,5 +1,6 @@
 {% extends "base.html" %} {% block title %}Login{% endblock %} {% block content
 %}
+
 <form method="POST">
   <h3 align="center">Login</h3>
   <div class="form-group">
@@ -25,4 +26,9 @@
   <br />
   <button type="submit" class="btn btn-primary">Login</button>
 </form>
+
+<div align="center" style="margin-top: 1in">
+    <a class="btn btn-primary" href="/login">Login with Google</a>
+</div>
+
 {% endblock %}
